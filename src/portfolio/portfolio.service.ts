@@ -8,7 +8,7 @@ export class PortfolioService {
   constructor(private prisma: PrismaService) {}
 
   create(createPortfolioDto: CreatePortfolioDto) {
-    return 'This action adds a new portfolio';
+    return this.prisma.portfolio.create({ data: createPortfolioDto });
   }
 
   async findAll({ page, limit }: { page: number; limit: number }) {

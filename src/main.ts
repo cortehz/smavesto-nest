@@ -1,10 +1,22 @@
-import 'dotenv/config'
-import { NestFactory } from '@nestjs/core'
-import { AppModule } from './app.module'
+import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import 'dotenv/config';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule)
-  app.enableShutdownHooks()
-  await app.listen(3000)
+  const PORT = process.env.PORT || 3000;
+  const app = await NestFactory.create(AppModule);
+
+  const config = new DocumentBuilder()
+    .setTitle('Portfolio API 🚀')
+    .setDescription('The Portfolio API description')
+    .setVersion('0.1')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+
+  app.enableShutdownHooks();
+  await app.listen(PORT);
 }
-bootstrap()
+bootstrap();
